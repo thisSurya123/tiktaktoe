@@ -24,7 +24,7 @@ function App() {
   }
 
   function numberDelete(){
-    if(second == ""){
+    if(second === ""){
       setOpertion(true);
     }
     let btnlength = operation ? btn.length - 1 : second.length -1;
@@ -32,14 +32,14 @@ function App() {
   }
 
   function Result(){
-    if(symbol == "X"){
+    if(symbol === "X"){
       setResult(btn * second);
-    }if(symbol == "-"){
+    }if(symbol === "-"){
       setResult(btn - second);
-    }if(symbol == "/"){
+    }if(symbol === "/"){
       setResult(btn / second);
-    }if(symbol == "+"){
-      setResult((btn + second));
+    }if(symbol === "+"){
+      setResult((parseInt(btn) + parseInt(second)));
     }
   }
 
