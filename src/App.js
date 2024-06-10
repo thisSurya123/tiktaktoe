@@ -1,127 +1,45 @@
 import { useState } from "react";
 
-function App() {
-  const numberButton = [];
-  const [btn, setBtn] = useState("");
-  const [second, setSecond] = useState("");
-  const [operation, setOpertion] = useState(true);
-  const [symbol, setSymbol] = useState("");
-  const [result, setResult] = useState(0);
-
-  for(let i = 1; i <= 9; i++){
-    numberButton.push(
-    <Button name={i} number={i} setValue={setBtn} 
-    onClick={() => {operation ? setBtn(btn + i) : setSecond(second + i )}}
-    />);
-  }
-
-
-  function clearDisplay(){
-    setBtn("");
-    setSecond("");
-    setSymbol("");
-    setResult("");
-  }
-
-  function numberDelete(){
-    if(second === ""){
-      setOpertion(true);
-    }
-    let btnlength = operation ? btn.length - 1 : second.length -1;
-    operation ? setBtn(btn.slice(0, btnlength)) : setSecond(second.slice(0, btnlength));
-  }
-
-  function Result(){
-    if(symbol === "X"){
-      setResult(btn * second);
-    }if(symbol === "-"){
-      setResult(btn - second);
-    }if(symbol === "/"){
-      setResult(btn / second);
-    }if(symbol === "+"){
-      setResult((parseInt(btn) + parseInt(second)));
-    }
-  }
-
-  function Symbol(){
-    return(
-      <div>
-      <p className="-translate-y-6">{symbol}</p>
-      <hr />
-      </div>
-    )
-  }
-
-  function multiple(){
-    setOpertion(false);
-    setSymbol("X");
-  }
-
-  function decrease(){
-    setOpertion(false);
-    setSymbol("-");
-  }
-
-  function increast(){
-    setOpertion(false);
-    setSymbol("+");
-  }
-
-  function decision(){
-    setOpertion(false);
-    setSymbol("/");
-  }
-  return (
-    <div className="
-    min-h-screen
-    bg-gray-900 flex-row
-    text-white md:w-2/6 mx-auto">
-      <div className="border p-3 h-52">
-      <DisplayNumber value={btn}/>
-      <DisplayNumber value={second} />
-      <Symbol />
-      <DisplayNumber value={result} />
-      </div>
-      <div className="flex items-end">
-        <div className="">
-          <Button name="%" />
-          <Button name="CE" />
-          <Button name="C" onClick={clearDisplay} />
-          {numberButton}
-          <Button name="-/+"/>
-          <Button name="0" onClick={() => {(setBtn(btn + 0))}}/>
-          <Button name="."/>
-        </div>
-        <div className="w-48 flex-wrap">
-          <Button name="D" onClick={numberDelete}/>
-          <Button name="/" onClick={decision}/>
-          <Button name="X" onClick={multiple}/>
-          <Button name="-" onClick={decrease}/>
-          <Button name="+" onClick={increast}/>
-          <Button name="=" onClick={Result}/>
-        </div>
-      </div>
-    </div>
+function Square({value, onSquareclick}){
+  return(
+    <button className="border w-full h-40" onClick={onSquareclick}>{value}</button>
   );
 }
 
-function Button({name, number, width, onClick}){
+
+
+export default function App(){
+  const [change, setChange] = useState(true);
+  const [square, setSquare] = useState(Array(9).fill(null));
   
-  return(
-    <button className="
-    text-3xl font-bold
-    bg-gray-900 rounded-2xl
-    border 
-    p-5 basis-6 w-28
-    "value={number}
-    onClick={onClick}>{name}</button>
-  );
-}
+  function handleClick(i){
+    const nextSquare = square.slice();
+    if(change){
+      nextSquare[i] = 'X';
+    }else{
+      nextSquare[i] = 'O';
+    }
+    setSquare(nextSquare);
+    setChange(!change);
+  }
 
-function DisplayNumber({value}){
   return(
-    <p className="text-5xl text-right">{value}</p>
+    <div className="md:w-5/12 mx-auto text-white font-bold text-5xl mt-24">
+    <div className="flex border bg-gray-900">
+        <Square value={square[0]} onSquareclick={() => {handleClick(0)}} />
+        <Square value={square[1]} onSquareclick={() => {handleClick(1)}} />
+        <Square value={square[2]} onSquareclick={() => {handleClick(2)}} />
+    </div>
+    <div className="flex border bg-gray-900">
+        <Square value={square[3]} onSquareclick={() => {handleClick(3)}} />
+        <Square value={square[4]} onSquareclick={() => {handleClick(4)}} />
+        <Square value={square[5]} onSquareclick={() => {handleClick(5)}} />
+    </div>
+    <div className="flex border bg-gray-900">
+        <Square value={square[6]} onSquareclick={() => {handleClick(6)}} />
+        <Square value={square[7]} onSquareclick={() => {handleClick(7)}} />
+        <Square value={square[8]} onSquareclick={() => {handleClick(8)}} />
+    </div>
+    </div>
   )
 }
-
-export default App;
